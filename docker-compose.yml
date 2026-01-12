@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - DB_HOST=db
+      - DB_USER=trust_user
+      - DB_PASS=trust_password
+      - DB_NAME=trust_db
+    depends_on:
+      - db
+    networks:
+      - trust-network
+    restart: always
+
+  db:
+    image: mariadb:10.6
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_secret
+      - MYSQL_DATABASE=trust_db
+      - MYSQL_USER=trust_user
+      - MYSQL_PASSWORD=trust_password
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - trust-network
+    restart: always
+    # Healthcheck to ensure it's ready before web tries (optional but good)
+    healthcheck:
+        test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+
+networks:
+  trust-network:
+    driver: bridge
+
+volumes:
+  db_data:
