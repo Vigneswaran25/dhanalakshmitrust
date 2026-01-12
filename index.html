@@ -15,8 +15,7 @@
     <header>
         <div class="container nav-container">
             <div class="logo">
-                <img src="./assets/logo.png"
-                    alt="Dhanalakshmi Trust Logo">
+                <img src="./assets/logo.png" alt="Dhanalakshmi Trust Logo">
                 <span>DHANALAKSHMI TRUST</span>
             </div>
             <nav>
@@ -102,39 +101,35 @@
             <div class="section-title">
                 <h2>Impact Gallery</h2>
                 <div class="title-line"></div>
-            </div>
-            <div class="gallery-wrapper">
-                <button class="nav-btn prev" onclick="scrollGallery(-1)"><ion-icon
-                        name="chevron-back-outline"></ion-icon></button>
-                <div class="gallery-grid" id="gallery-grid">
-                    <!-- Hardcoded Initial -->
-                    <div class="gallery-item">
-                        <img src="assets/food.png" alt="Food Distribution">
-                        <div class="gallery-caption">Food Drive in Chennai</div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="assets/education.png" alt="Education">
-                        <div class="gallery-caption">School Kit Distribution</div>
-                    </div>
-                </div>
-                <button class="nav-btn next" onclick="scrollGallery(1)"><ion-icon
-                        name="chevron-forward-outline"></ion-icon></button>
+                <p style="text-align:center; max-width:600px; margin: 1rem auto; color:var(--text-secondary);">
+                    Witness the change we are making together. Every picture tells a story of hope and resilience.
+                </p>
             </div>
 
-            <div style="text-align:center; margin-top:2rem;">
-                <input type="file" id="local-upload" accept="image/*" style="display: none;">
-                <label for="local-upload" class="btn btn-outline small">
-                    <ion-icon name="camera-outline" style="vertical-align:middle; margin-right:5px;"></ion-icon>
-                    Upload Event Photo
-                </label>
+            <!-- Gallery Grid (No more slider) -->
+            <div class="gallery-grid" id="gallery-grid">
+                <!-- Javascript will populate this, including the Upload Card -->
+            </div>
+
+            <!-- Hidden File Input for the Upload Card to trigger -->
+            <input type="file" id="local-upload" accept="image/*" style="display: none;">
+
+            <!-- Delete Button (Hidden by default) -->
+            <div class="gallery-actions" style="text-align:center; margin-top:2rem;">
                 <button id="delete-selected" class="btn btn-outline small"
-                    style="display:none; border-color:#ef4444; color:#ef4444; margin-left:10px;">
+                    style="display:none; border-color:#ef4444; color:#ef4444;">
                     <ion-icon name="trash-outline" style="vertical-align:middle;"></ion-icon> Remove Selected
                 </button>
             </div>
         </div>
-        </div>
     </section>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+        <div id="lightbox-caption"></div>
+    </div>
 
     <!-- Visitor Form Section (Preserved Functionality) -->
     <section id="join-mission" class="section-padding form-bg">

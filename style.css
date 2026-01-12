@@ -299,41 +299,9 @@ nav a:hover {
     font-size: 0.95rem;
 }
 
-/* Gallery */
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-}
-
-.gallery-item {
+/* Gallery (Layout handled at bottom) */
+.gallery-section {
     position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    height: 250px;
-    box-shadow: var(--shadow-soft);
-}
-
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s;
-}
-
-.gallery-item:hover img {
-    transform: scale(1.1);
-}
-
-.gallery-caption {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-    color: white;
-    padding: 1.5rem 1rem 0.5rem;
-    font-size: 0.9rem;
 }
 
 /* Form Section */
@@ -469,7 +437,9 @@ footer {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-}/* --- Responsive Enhancements --- */
+}
+
+/* --- Responsive Enhancements --- */
 
 /* Mobile Phones (Portrait) */
 @media (max-width: 480px) {
@@ -548,51 +518,103 @@ label[for="local-upload"]:hover {
         opacity: 1;
         transform: translateY(0);
     }
-}/* --- Gallery Carousel --- */
-.gallery-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
 }
 
+/* --- Gallery Grid Layout --- */
 .gallery-grid {
-    display: flex;
-    overflow-x: auto;
-    scroll-behavior: smooth;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
-    padding: 1rem 5px;
-    /* Padding for hover effects */
-    scrollbar-width: none;
-    /* Firefox */
-}
-
-.gallery-grid::-webkit-scrollbar {
-    display: none;
-    /* Chrome/Safari */
+    padding: 1rem 0;
 }
 
 .gallery-item {
-    min-width: 300px;
-    flex-shrink: 0;
-    cursor: pointer;
-    /* Indicate clickable */
-    border: 3px solid transparent;
-    /* Reserve space for selection border */
     position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 300px;
+    box-shadow: var(--shadow-soft);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: white;
 }
 
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.08);
+}
+
+.gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent);
+    color: white;
+    padding: 2rem 1.5rem 1rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.gallery-item:hover .gallery-caption {
+    transform: translateY(0);
+}
+
+/* Upload Card Style */
+.gallery-item.upload-card {
+    border: 2px dashed #cbd5e1;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    background: transparent;
+    transition: all 0.3s;
+    height: 300px;
+    /* Match others */
+}
+
+.gallery-item.upload-card:hover {
+    border-color: var(--gold-primary);
+    background: rgba(212, 175, 55, 0.05);
+    color: var(--gold-primary);
+    transform: translateY(-5px);
+}
+
+.upload-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.upload-text {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Selected State for Deletion */
 .gallery-item.selected {
-    border-color: #ef4444;
-    /* Red border for delete selection */
-    opacity: 0.8;
+    border: 3px solid #ef4444;
 }
 
 .gallery-item.selected::after {
     content: "\2713";
-    /* Checkmark */
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 15px;
+    right: 15px;
     background: #ef4444;
     color: white;
     width: 30px;
@@ -603,45 +625,67 @@ label[for="local-upload"]:hover {
     justify-content: center;
     font-weight: bold;
     z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Nav Buttons */
-.gallery-wrapper .nav-btn {
-    background: white;
-    color: var(--royal-blue);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 1.2rem;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-    transition: all 0.3s;
-    display: flex;
-    /* Flex to center icon */
-    align-items: center;
+/* --- Lightbox Modal --- */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(5px);
     justify-content: center;
-    position: absolute;
+    align-items: center;
+    flex-direction: column;
+    animation: fadeIn 0.3s;
 }
 
-.gallery-wrapper .nav-btn:hover {
-    background: var(--gold-primary);
+.lightbox-content {
+    max-width: 90%;
+    max-height: 80vh;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    animation: zoomIn 0.3s;
+}
+
+#lightbox-caption {
+    margin-top: 1rem;
     color: white;
-    transform: scale(1.1);
+    font-size: 1.2rem;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 0.5px;
 }
 
-.gallery-wrapper .prev {
-    left: -20px;
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+    line-height: 1;
 }
 
-.gallery-wrapper .next {
-    right: -20px;
+.lightbox-close:hover {
+    color: var(--gold-primary);
 }
 
-@media (max-width: 768px) {
-    .gallery-wrapper .nav-btn {
-        display: none;
-        /* Hide arrows on mobile, swipe is better */
+@keyframes zoomIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1
     }
 }
